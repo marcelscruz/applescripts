@@ -1,4 +1,5 @@
 tell application "Google Chrome"
+	set isYouTube to false
 	
 	repeat with w in windows
 		set i to 1
@@ -8,10 +9,12 @@ tell application "Google Chrome"
 			get properties of t
 			
 			if URL of t contains "https://www.youtube.com/watch" then
-				set active tab index of w to i
+				-- tell w execute javascript "document.queryElementsByClassName('ytp-play-button')"
+				
+				set active tab index of w to i -- brings tab to front"
 				set index of w to 1
 				set isYouTube to true
-				return
+				return "YouTube"
 			end if
 			set i to i + 1
 			
@@ -20,3 +23,4 @@ tell application "Google Chrome"
 	end repeat
 	
 end tell
+
