@@ -1,0 +1,6 @@
+-- ...
+set sName to (get name of current track)
+-- ...
+if (length of sName) > 25 then
+  set sName to text 1 thru 25 of sName & "..."
+end if
