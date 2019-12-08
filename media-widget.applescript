@@ -9,50 +9,52 @@ if application "Spotify" is running then
 			do shell script "curl " & artworkURL & " -o /Users/marcelcruz/Library/Application\\ Support/BetterTouchTool/spotify_cover.png"
 			set fileName to ((((path to application support folder from user domain) as text) & "BetterTouchTool:" as text) & "spotify_cover.png")
 			return "{\"text\":\"" & nowPlaying & "\", \"icon_path\":\"" & (POSIX path of fileName as text) & "\" }"
-			-- else
-			-- 	return ""
+			else
+				return ""
 		end if
 	end tell
+  else
+    return ""
 end if
 
 -- Chrome - YouTube
-if application "Google Chrome" is running then
-	tell application "Google Chrome"
-		repeat with t in tabs of windows
-			tell t
-				if URL starts with "http://www.youtube.com/watch" or URL starts with "https://www.youtube.com/watch" then
-					tell t to set videoTitle to execute javascript "document.getElementById('info-contents').getElementsByClassName('title')[0].textContent"
-					-- tell t to set playPauseButton to execute javascript "document.getElementsByClassName('ytp-play-button')[0].getAttribute('aria-label')"
-					-- tell t to set isPlaying to playPauseButton does not contain "Play"
-					-- if isPlaying then
-						set fileName to ((((path to application support folder from user domain) as text) & "BetterTouchTool:" as text) & "youtube.png")
-						return "{\"text\":\"" & videoTitle & "\", \"icon_path\":\"" & (POSIX path of fileName as text) & "\"}"
-					-- end if
+-- if application "Google Chrome" is running then
+-- 	tell application "Google Chrome"
+-- 		repeat with t in tabs of windows
+-- 			tell t
+-- 				if URL starts with "http://www.youtube.com/watch" or URL starts with "https://www.youtube.com/watch" then
+-- 					tell t to set videoTitle to execute javascript "document.getElementById('info-contents').getElementsByClassName('title')[0].textContent"
+-- 					-- tell t to set playPauseButton to execute javascript "document.getElementsByClassName('ytp-play-button')[0].getAttribute('aria-label')"
+-- 					-- tell t to set isPlaying to playPauseButton does not contain "Play"
+-- 					-- if isPlaying then
+-- 						set fileName to ((((path to application support folder from user domain) as text) & "BetterTouchTool:" as text) & "youtube.png")
+-- 						return "{\"text\":\"" & videoTitle & "\", \"icon_path\":\"" & (POSIX path of fileName as text) & "\"}"
+-- 					-- end if
 					
-				end if
-			end tell
-		end repeat
-	end tell
-end if
+-- 				end if
+-- 			end tell
+-- 		end repeat
+-- 	end tell
+-- end if
 
 -- Chrome - Netflix
 
 
 -- Spotify -- not running, but app is open and Chrome isn't playing
-if application "Spotify" is running then
-	tell application "Spotify"
-		-- if player state is playing then
-		set sName to (get name of current track)
-		set nowPlaying to (get artist of current track) & " - " & sName
-		set artworkURL to artwork url of current track
-		do shell script "curl " & artworkURL & " -o /Users/marcelcruz/Library/Application\\ Support/BetterTouchTool/spotify_cover.png"
-		set fileName to ((((path to application support folder from user domain) as text) & "BetterTouchTool:" as text) & "spotify_cover.png")
-		return "{\"text\":\"" & nowPlaying & "\", \"icon_path\":\"" & (POSIX path of fileName as text) & "\" }"
-		-- else
-		-- 	return ""
-		-- end if
-	end tell
-end if
+-- if application "Spotify" is running then
+-- 	tell application "Spotify"
+-- 		-- if player state is playing then
+-- 		set sName to (get name of current track)
+-- 		set nowPlaying to (get artist of current track) & " - " & sName
+-- 		set artworkURL to artwork url of current track
+-- 		do shell script "curl " & artworkURL & " -o /Users/marcelcruz/Library/Application\\ Support/BetterTouchTool/spotify_cover.png"
+-- 		set fileName to ((((path to application support folder from user domain) as text) & "BetterTouchTool:" as text) & "spotify_cover.png")
+-- 		return "{\"text\":\"" & nowPlaying & "\", \"icon_path\":\"" & (POSIX path of fileName as text) & "\" }"
+-- 		-- else
+-- 		-- 	return ""
+-- 		-- end if
+-- 	end tell
+-- end if
 
 -- return ""
 
