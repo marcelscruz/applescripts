@@ -14,41 +14,26 @@ end repeat
 set i to 0
 set deviceConnected to false
 repeat with i from 1 to count btInfo
-	if item i of btInfo contains "AirPods" and item i of btInfo contains ", 1" then
+	if item i of btInfo contains "AirPods" and item i of btInfo does not contain "Pro" and item i of btInfo contains ", 1" then
 		set deviceConnected to true
 	end if
 end repeat
 
 if deviceConnected is true then
-	set batteryPercentLeft to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentLeft\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
-	set batteryPercentRight to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentRight\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
-	set batteryPercentCase to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentCase\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
-	set finalResult to ""
-	
-	if batteryPercentCase is not "0%" and batteryPercentCase is not "Not Connected" then
-		set finalResult to "C " & batteryPercentCase
+	set batteryLevelLeft to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentLeft\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
+	set batteryLevelRight to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentRight\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
+    set batteryLevelCase to do shell script "BLUETOOTH_DEFAULTS=$(defaults read /Library/Preferences/com.apple.Bluetooth); SYSTEM_PROFILER=$(system_profiler SPBluetoothDataType); MAC_ADDR=$(grep -b2 \"Minor Type: Headphones\"<<<\"${SYSTEM_PROFILER}\"|awk '/Address/{print $3}'); CONNECTED=$(grep -ia6 \"${MAC_ADDR}\"<<<\"${SYSTEM_PROFILER}\"|awk '/Connected: Yes/{print 1}'); BLUETOOTH_DATA=$(grep -ia6 '\"'\"${MAC_ADDR}\"'\"'<<<\"${BLUETOOTH_DEFAULTS}\"); BATTERY_LEVELS=(\"BatteryPercentCase\"); if [[ \"${CONNECTED}\" ]]; then for I in \"${BATTERY_LEVELS[@]}\"; do declare -x \"${I}\"=\"$(awk -v pat=\"${I}\" '$0~pat{gsub (\";\",\"\"); print $3 }'<<<\"${BLUETOOTH_DATA}\")\"; [[ ! -z \"${!I}\" ]] && OUTPUT=\"${OUTPUT}$(awk <<<\"${I}\")${!I}%\"; done; printf \"%s\" \"${OUTPUT}\"; else printf \"%s Not Connected\" \"${OUTPUT}\"; fi"
+	set batteryPercentLeft to word 2 of batteryLevelLeft
+	set batteryPercentRight to word 2 of batteryLevelRight
+    set batteryPercentCase to word 2 of batteryLevelCase
+
+    if batteryPercentCase is not "0" and batteryPercentCase is not "Not Connected" then
+		set finalResult to "C " & batteryPercentCase & "%  " & "L " & batteryPercentLeft & "%  " & "R " & batteryPercentRight & "%"
+        else
+            set finalResult to "L " & batteryPercentLeft & "%  " & "R " & batteryPercentRight & "%"
 	end if
-	
-	if batteryPercentLeft is not "0%" and batteryPercentLeft is not "Not Connected" then
-		if finalResult contains "C" then -- fix whitespace
-			set finalResult to finalResult & "  " & "L " & batteryPercentLeft
-		else
-			set finalResult to "L " & batteryPercentLeft
-		end if
-		
-	end if
-	
-	if batteryPercentRight is not "0%" and batteryPercentRight is not "Not Connected" then
-		if finalResult contains "C" or finalResult contains "L" then -- fix whitespace
-			set finalResult to finalResult & "  " & "R " & batteryPercentRight
-		else
-			set finalResult to "R " & batteryPercentRight
-		end if
-	end if
-	
-	return finalResult
-	
-	--	return "C: " & batteryPercentCase & "  " & "L: " & batteryPercentLeft & "  " & "R: " & batteryPercentRight
+
+    return finalResult
 else
 	return ""
 end if
